@@ -22,19 +22,4 @@ public class OrdersCreate {
         System.out.println(response.getBody().asString());
         return response.getBody().asString();
     }
-
-    public static List<ArrayList<String>> getColour(String colour){
-        List<ArrayList<String>> listColour = new ArrayList<>();
-        ArrayList<String> a = new ArrayList<>();
-        a.add(colour);
-        listColour.add(a);
-        return listColour;
-    }
-
-    public static ArrayList<String> getListColour(String colour1, String colour2){
-        ArrayList <String> listColour = new ArrayList<>();
-        listColour.add(colour1);
-        listColour.add(colour2);
-        return listColour;
-    }
 }

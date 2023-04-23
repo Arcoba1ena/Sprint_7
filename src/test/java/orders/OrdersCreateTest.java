@@ -1,16 +1,18 @@
 package orders;
 
-import io.qameta.allure.junit4.DisplayName;
-import org.junit.Assert;
+import functions.Utils;
 import org.junit.Test;
 import org.junit.Before;
-
+import org.junit.Assert;
 import java.util.ArrayList;
-
 import org.junit.runner.RunWith;
 import io.restassured.RestAssured;
 import functions.orders.OrdersCreate;
 import org.junit.runners.Parameterized;
+import io.qameta.allure.junit4.DisplayName;
+
+import static functions.Utils.getColour;
+import static functions.Utils.getListColour;
 
 /**
  * Требования к тестам для метода "Создание заказа" :
@@ -63,15 +65,12 @@ public class OrdersCreateTest extends OrdersCreate {
 
     @Test
     @DisplayName("Проверка входного параметра colour")
-    //можно указать оба цвета;
-    //можно совсем не указывать цвет;
-    //можно указать один из цветов — BLACK или GREY;
     public void checkOrdersParams() {
         getOrdersCreate(phone, address, comment, lastName, rentTime, firstName,
                 deliveryDate, metroStation, color, 201);
     }
 
-    @Test //тело ответа содержит track;
+    @Test
     @DisplayName("Проверка ответа при успешном создании заказов")
     public void checkOrdersCreate(){
         Assert.assertTrue(getOrdersCreate(phone, address, comment, lastName, rentTime, firstName,

@@ -1,11 +1,12 @@
 package courier;
 
 import org.junit.*;
+import functions.Utils;
 import org.junit.runner.*;
 import org.junit.runners.*;
+import io.restassured.RestAssured;
 import functions.courier.CourierLogin;
 import functions.courier.CourierCreate;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.qameta.allure.junit4.DisplayName;
 import static io.restassured.RestAssured.given;
@@ -33,12 +34,14 @@ public class CourierCreateTest extends CourierCreate {
     private final String password;
     private final String firstName;
 
+    Utils utils = new Utils();
+    private final String path = "src/test/resources/constants/";
+
     public CourierCreateTest(String login, String password, String firstName) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
     }
-
 
     @Parameterized.Parameters(name = "Тестовые данные: {0},{1},{2}")
     public static Object[][] getTestData() {
@@ -49,13 +52,14 @@ public class CourierCreateTest extends CourierCreate {
         };
     }
 
-    @Test //курьера можно создать;
+    @Test
     @DisplayName("Создание курьера")
     public void checkCourierCreate() {
-        getCreateCourier(login, password, firstName, 201);
+        Assert.assertTrue(getCreateCourier(login, password, firstName, 201)
+                .contains("true"));
     }
 
-    @Test //нельзя создать двух одинаковых курьеров;
+    @Test
     @DisplayName("Создание дубликата курьера")
     public void checkRepeatCreate() {
         Assert.assertTrue(getCreateCourier(login, password, firstName, 201)
@@ -66,8 +70,6 @@ public class CourierCreateTest extends CourierCreate {
     }
 
     @Test
-    //чтобы создать курьера, нужно передать в ручку все обязательные поля;
-    //если одного из обязательных полей нет, запрос возвращает ошибку;
     @DisplayName("Проверка обязательности полей")
     public void checkRequiredParams() {
         Assert.assertTrue(getCreateCourier(null, password, firstName, 400)
@@ -80,27 +82,28 @@ public class CourierCreateTest extends CourierCreate {
                 .contains("true"));
     }
 
-    @Test //запрос возвращает правильный код ответа;
-    @DisplayName("Проверка валидности статус кодов")
-    public void checkStatusCode() {
-        getCreateCourier(login, password, firstName, 201);
-        getCreateCourier(login, password, firstName, 409);
-        getCreateCourier(null, password, firstName, 400);
-        getCreateCourier(login, null, firstName, 400);
-    }
-
-    @Test //успешный запрос возвращает ok: true;
+    @Test
     @DisplayName("Проверка ответа при успешном создании курьера")
     public void checkCourierResponse() {
-        Assert.assertEquals("{\"ok\":true}", getCreateCourier(login, password, firstName, 201));
+        String expected = utils.readJson(path + "courier_create_code_201.json");
+        Assert.assertEquals(expected, getCreateCourier(login, password, firstName, 201));
     }
 
-    @Test //если создать пользователя с логином, который уже есть, возвращается ошибка.
+    @Test
     @DisplayName("Проверка ответа при создании дубля курьера")
-    public void checkCourierRepeatResponse() {
+    public void checkCourierRepeatResponse()  {
+        String expected = utils.readJson(path + "courier_create_code_409.json");
         getCreateCourier(login, password, firstName, 201);
-        Assert.assertEquals("{\"code\":409,\"message\":\"Этот логин уже используется. Попробуйте другой.\"}",
-                getCreateCourier(login, password, firstName, 409));
+        Assert.assertEquals(expected, getCreateCourier(login, password, firstName, 409));
+    }
+
+    @Test
+    @DisplayName("Проверка ответа при отсутствии обязательных параметров")
+    public void checkCourierResponseRequiredParams(){
+        String expected = utils.readJson(path + "courier_create_code_400.json");
+        getCreateCourier(login, password, firstName, 201);
+        Assert.assertEquals(expected,getCreateCourier(null, password, firstName, 400));
+        Assert.assertEquals(expected,getCreateCourier(login, null, firstName, 400));
     }
 
     @After
