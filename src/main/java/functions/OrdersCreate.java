@@ -1,6 +1,5 @@
 package functions.orders;
 
-import java.util.List;
 import java.util.ArrayList;
 import io.restassured.response.Response;
 import models.serialization.OrdersCreateModel;
@@ -12,14 +11,13 @@ public class OrdersCreate {
                                   String deliveryDate, Integer metroStation, ArrayList<String> color, Integer code) {
         OrdersCreateModel ordersModel = new OrdersCreateModel(phone, address, comment, lastName, rentTime,
                 firstName, deliveryDate, metroStation, color);
-        Response response = given()  //.log().all() ------------------------------------------------
+        Response response = given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(ordersModel)
                 .when()
                 .post("/api/v1/orders");
         response.then().statusCode(code);
-        System.out.println(response.getBody().asString());
         return response.getBody().asString();
     }
 }
