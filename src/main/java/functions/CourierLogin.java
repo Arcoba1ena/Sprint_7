@@ -1,4 +1,4 @@
-package functions.courier;
+package functions;
 
 import io.restassured.response.Response;
 import models.deserialization.CourierIdModel;

@@ -1,18 +1,15 @@
 package courier;
 
-import com.google.gson.Gson;
-import functions.Utils;
-import models.deserialization.CourierIdModel;
-import models.serialization.CourierLoginModel;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
+import functions.Utils;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import io.restassured.RestAssured;
-import functions.courier.CourierLogin;
+import functions.CourierLogin;
 import org.junit.runners.Parameterized;
-import functions.courier.CourierCreate;
+import functions.CourierCreate;
 import io.restassured.response.Response;
 import io.qameta.allure.junit4.DisplayName;
 import static io.restassured.RestAssured.given;

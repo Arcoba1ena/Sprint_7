@@ -1,13 +1,12 @@
 package orders;
 
-import functions.Utils;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Assert;
 import java.util.ArrayList;
+import functions.OrdersCreate;
 import org.junit.runner.RunWith;
 import io.restassured.RestAssured;
-import functions.orders.OrdersCreate;
 import org.junit.runners.Parameterized;
 import io.qameta.allure.junit4.DisplayName;
 
@@ -56,10 +55,14 @@ public class OrdersCreateTest extends OrdersCreate {
     @Parameterized.Parameters(name = "Тестовые данные: {0},{1} ...")
     public static Object[][] getTestData() {
         return new Object[][]{
-                {"+7 900 999 99 00", "Home", "Flat", "Room", 1, "Station", "2023-04-03", 1, null},
-                {"+7 129 000 00 99", "Gallery", "Mall", "Santa", 2, "Claus", "2023-04-01", 2, getColour("BLACK")},
-                {"+7 500 100 20 55", "Street", "Baker", "Holmes", 1, "Sherlock", "2023-04-15", 1, getColour("GRAY")},
-                {"+7 900 999 99 00", "Place", "Hall", "Mall", 1, "St", "2023-04-30", 1, getListColour("BLACK", "GRAY")},
+                {"+7 900 999 99 00", "Home", "Flat", "Room", 1, "Station", "2023-04-03", 1,
+                        null},
+                {"+7 129 000 00 99", "Gallery", "Mall", "Santa", 2, "Claus", "2023-04-01", 2,
+                        getColour("BLACK")},
+                {"+7 500 100 20 55", "Street", "Baker", "Holmes", 3, "Sherlock", "2023-04-15", 3,
+                        getColour("GRAY")},
+                {"+7 900 999 99 00", "Place", "Hall", "Mall", 4, "St", "2023-04-30", 4,
+                        getListColour("BLACK", "GRAY")},
         };
     }
 

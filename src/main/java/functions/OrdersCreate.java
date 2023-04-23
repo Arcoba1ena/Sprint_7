@@ -1,4 +1,4 @@
-package functions.orders;
+package functions;
 
 import java.util.ArrayList;
 import io.restassured.response.Response;
