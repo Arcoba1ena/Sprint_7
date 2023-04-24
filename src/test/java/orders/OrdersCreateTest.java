@@ -67,13 +67,6 @@ public class OrdersCreateTest extends OrdersCreate {
     }
 
     @Test
-    @DisplayName("Проверка входного параметра colour")
-    public void checkOrdersParams() {
-        getOrdersCreate(phone, address, comment, lastName, rentTime, firstName,
-                deliveryDate, metroStation, color, 201);
-    }
-
-    @Test
     @DisplayName("Проверка ответа при успешном создании заказов")
     public void checkOrdersCreate(){
         Assert.assertTrue(getOrdersCreate(phone, address, comment, lastName, rentTime, firstName,

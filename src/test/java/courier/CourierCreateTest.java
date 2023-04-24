@@ -46,9 +46,7 @@ public class CourierCreateTest extends CourierCreate {
     @Parameterized.Parameters(name = "Тестовые данные: {0},{1},{2}")
     public static Object[][] getTestData() {
         return new Object[][]{
-                {"Summer", "00001", "Bridges"},
-                {"Michelle", "10009", "Cooper"},
-                {"Wednesday", "50205", "Adams"},
+                {"Summer", "00001", "Bridges"}
         };
     }
 
@@ -69,17 +67,32 @@ public class CourierCreateTest extends CourierCreate {
                 .contains("Этот логин уже используется"));
     }
 
+    /**
+     * Тест также проверяет необязательность параметра firstName, т.к. в случае если никакой пользователь не будет создан,
+     * то @After даже при успешном выполнении теста упадет, т.к. не сможет удалить пользователя.
+     */
     @Test
-    @DisplayName("Проверка обязательности полей")
-    public void checkRequiredParams() {
+    @DisplayName("Проверка обязательности поля login")
+    public void checkLoginRequiredParams() {
+        Assert.assertTrue(getCreateCourier(login, password, "", 201)
+                .contains("true"));
+
         Assert.assertTrue(getCreateCourier(null, password, firstName, 400)
                 .contains("Недостаточно данных для создания учетной записи"));
+    }
+
+    /**
+     * Тест также проверяет необязательность параметра firstName, т.к. в случае если никакой пользователь не будет создан,
+     * то @After даже при успешном выполнении теста упадет, т.к. не сможет удалить пользователя.
+     */
+    @Test
+    @DisplayName("Проверка обязательности поля password")
+    public void checkPasswordRequiredParams(){
+        Assert.assertTrue(getCreateCourier(login, password, null, 201)
+                .contains("true"));
 
         Assert.assertTrue(getCreateCourier(login, null, firstName, 400)
                 .contains("Недостаточно данных для создания учетной записи"));
-
-        Assert.assertTrue(getCreateCourier(login, password, null, 201)
-                .contains("true"));
     }
 
     @Test

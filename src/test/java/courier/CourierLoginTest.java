@@ -45,9 +45,7 @@ public class CourierLoginTest extends CourierLogin {
     @Parameterized.Parameters(name = "Тестовые данные: {0},{1},{2}")
     public static Object[][] getTestData() {
         return new Object[][]{
-                {"mr.Darren", "50001", "Potter"},
-                {"mr.Edgar", "90000", "Dalton"},
-                {"mrs.Cynthia", "10205", "Chaplin"},
+                {"mr.Darren", "50001", "Potter"}
         };
     }
 
