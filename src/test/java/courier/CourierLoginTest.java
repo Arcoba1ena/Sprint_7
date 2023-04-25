@@ -5,14 +5,13 @@ import org.junit.After;
 import org.junit.Before;
 import functions.Utils;
 import org.junit.Assert;
+import functions.CourierLogin;
+import functions.CourierCreate;
+import functions.CourierDelete;
 import org.junit.runner.RunWith;
 import io.restassured.RestAssured;
-import functions.CourierLogin;
 import org.junit.runners.Parameterized;
-import functions.CourierCreate;
-import io.restassured.response.Response;
 import io.qameta.allure.junit4.DisplayName;
-import static io.restassured.RestAssured.given;
 
 /**
  * Требования к тестам для метода "Логин курьера" :
@@ -91,11 +90,7 @@ public class CourierLoginTest extends CourierLogin {
     @After
     @DisplayName("Удаление созданных курьеров")
     public void testDeleteCouriers() {
-        Integer id = getCourierId(login, password);
-        Response response = given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete("api/v1/courier/" + id);
-        response.then().statusCode(200);
+        CourierDelete courierDelete = new CourierDelete();
+        courierDelete.getDeleteCourier(login,password);
     }
 }

@@ -1,5 +1,6 @@
 package orders;
 
+import functions.CourierDelete;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
@@ -93,12 +94,7 @@ public class OrdersListTest {
     @After
     @DisplayName("Удаление созданных курьеров")
     public void testDeleteCouriers() {
-        CourierLogin courierLogin = new CourierLogin();
-        Integer id = courierLogin.getCourierId(login,password);
-        Response response = given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete("api/v1/courier/" + id);
-        response.then().statusCode(200);
+        CourierDelete courierDelete = new CourierDelete();
+        courierDelete.getDeleteCourier(login,password);
     }
 }

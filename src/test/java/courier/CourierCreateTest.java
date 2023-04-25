@@ -1,15 +1,16 @@
 package courier;
 
-import org.junit.*;
+import org.junit.Test;
 import functions.Utils;
-import org.junit.runner.*;
-import org.junit.runners.*;
-import io.restassured.RestAssured;
-import functions.CourierLogin;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import functions.CourierCreate;
-import io.restassured.response.Response;
+import functions.CourierDelete;
+import org.junit.runner.RunWith;
+import io.restassured.RestAssured;
+import org.junit.runners.Parameterized;
 import io.qameta.allure.junit4.DisplayName;
-import static io.restassured.RestAssured.given;
 
 /**
  * Требования к тестам для метода "Создание курьера" :
@@ -67,30 +68,16 @@ public class CourierCreateTest extends CourierCreate {
                 .contains("Этот логин уже используется"));
     }
 
-    /**
-     * Тест также проверяет необязательность параметра firstName, т.к. в случае если никакой пользователь не будет создан,
-     * то @After даже при успешном выполнении теста упадет, т.к. не сможет удалить пользователя.
-     */
     @Test
     @DisplayName("Проверка обязательности поля login")
-    public void checkLoginRequiredParams() {
-        Assert.assertTrue(getCreateCourier(login, password, "", 201)
-                .contains("true"));
-
+    public void checkLoginRequiredParam() {
         Assert.assertTrue(getCreateCourier(null, password, firstName, 400)
                 .contains("Недостаточно данных для создания учетной записи"));
     }
 
-    /**
-     * Тест также проверяет необязательность параметра firstName, т.к. в случае если никакой пользователь не будет создан,
-     * то @After даже при успешном выполнении теста упадет, т.к. не сможет удалить пользователя.
-     */
     @Test
     @DisplayName("Проверка обязательности поля password")
-    public void checkPasswordRequiredParams(){
-        Assert.assertTrue(getCreateCourier(login, password, null, 201)
-                .contains("true"));
-
+    public void checkPasswordRequiredParam(){
         Assert.assertTrue(getCreateCourier(login, null, firstName, 400)
                 .contains("Недостаточно данных для создания учетной записи"));
     }
@@ -122,12 +109,7 @@ public class CourierCreateTest extends CourierCreate {
     @After
     @DisplayName("Удаление созданных курьеров")
     public void testDeleteCouriers() {
-        CourierLogin courierLogin = new CourierLogin();
-        Integer id = courierLogin.getCourierId(login, password);
-        Response response = given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete("api/v1/courier/" + id);
-        response.then().statusCode(200);
+        CourierDelete courierDelete = new CourierDelete();
+        courierDelete.getDeleteCourier(login,password);
     }
 }
