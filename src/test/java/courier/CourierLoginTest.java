@@ -59,12 +59,15 @@ public class CourierLoginTest extends CourierLogin {
     }
 
     @Test
-    @DisplayName("Проверка обязательности полей")
-    public void checkAuthRequiredParams() {
-        courierCreate.getCreateCourier(login, password, firstName, 201);
+    @DisplayName("Проверка обязательности поля login")
+    public void checkLoginRequiredParam() {
         Assert.assertTrue(getCourierAuth("", password, 400)
                 .contains("Недостаточно данных для входа"));
+    }
 
+    @Test
+    @DisplayName("Проверка обязательности поля password")
+    public void checkPasswordRequiredParam(){
         Assert.assertTrue(getCourierAuth(login, "", 400)
                 .contains("Недостаточно данных для входа"));
     }
